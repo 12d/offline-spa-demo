@@ -2,12 +2,26 @@ const gulp = require('gulp')
 const path = require('path')
 const config = require('./config/')
 const isEnv = process.env.NODE_ENV == 'production'
+const express = require('express');
+
+
+
+function runReleaseServer(){
+  let app = express();
+  app.use(express.static('./'));
+  let server = app.listen(3000, ()=>{
+    var host = server.address().address;
+    var port = server.address().port;
+    console.log('Example app listening at http://%s:%s', host, port);
+  });
+
+}
 
 /**
  * 清除生产目录文件
  */
 const del = require('del')
-gulp.task('clean', ['upload'], function (callback) {
+gulp.task('clean', [], function (callback) {
     console.log('## 已经成功部署到服务器上')
     console.log('## 清除原来编译的代码')
     del(['.' + config.publicPath], callback)
@@ -21,7 +35,8 @@ const webpackConfig = require('./webpack.config')
 gulp.task('build', function (callback) {
     console.log('## 代码编译开始')
     webpack(webpackConfig, function (err, state) {
-        console.log('## 代码编译完成')
+        console.log('## 代码编译完成');
+        runReleaseServer();
         callback(err)
     })
 })
@@ -45,4 +60,4 @@ gulp.task('devTest', ['build', 'upload', 'clean'])
 /**
  * 上传到生产服务器上
  */
-gulp.task('devDist', ['build', 'upload', 'clean'])
+gulp.task('release', ['build',  'clean'])
