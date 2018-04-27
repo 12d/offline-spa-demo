@@ -14,11 +14,13 @@ Object.keys(components).forEach((key) => {
 })
 
 Vue.use(VueRouter)
-
+const IS_HYBRID = navigator.userAgent.toLowerCase().indexOf('aladdin')>-1
+console.log('isHybrid', IS_HYBRID);
 const router = new VueRouter({
     routes,
-    mode: 'history'
+    mode: IS_HYBRID ? 'hash':'history'
 })
+/*
 router.beforeEach(({meta, path}, from, next) => {
     var { auth = true } = meta
     var isLogin = Boolean(store.state.user.id) //true用户已登录， false用户未登录
@@ -28,5 +30,5 @@ router.beforeEach(({meta, path}, from, next) => {
     }
     next()
 })
-
+*/
 new Vue({ store, router }).$mount('#app')

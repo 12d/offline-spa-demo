@@ -18,12 +18,15 @@ if (IS_ENV) { //生产环境
             warnings: false
         }
     }))
-    console.log(path.join(__dirname, 'dist/app'));
+    console.log('PrerenderSpaPlugin',path.join(__dirname, 'dist/app'));
     plugins.push(new PrerenderSpaPlugin({
-      staticDir: path.join(__dirname, './'),
-      indexPath: path.join(__dirname, 'dist/app', 'index.html'),
-      routes: [  '/login'],
-      renderer2: new Renderer({
+      staticDir: path.join(__dirname, 'dist'),
+      indexPath: path.join(__dirname, 'dist', 'index.html'),
+      routes: [  '/login','/home'],
+      server: {
+        port: 3000
+      },
+      rendererx: new Renderer({
         // Optional - The name of the property to add to the window object with the contents of `inject`.
         injectProperty: '__PRERENDER_INJECTED',
         // Optional - Any values you'd like your app to have access to via `window.injectProperty`.
@@ -45,7 +48,7 @@ if (IS_ENV) { //生产环境
 
         // Optional - Wait to render until a certain amount of time has passed.
         // NOT RECOMMENDED
-        // renderAfterTime: 1000, // Wait 5 seconds.
+        renderAfterTime: 1000, // Wait 5 seconds.
 
         // Other puppeteer options.
         // (See here: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerlaunchoptions)
@@ -63,11 +66,11 @@ plugins.push(
 
 
 module.exports = {
-    entry: ['./src/main.js'], //编译入口文件
+    entry: ['./src/main.js','./src/common/aladdin.js'], //编译入口文件
     output: {
-        publicPath: config.publicPath, //服务器的路径
+        publicPath: config.domain + config.staticPath, //服务器的路径
         path: path.resolve(__dirname + config.publicPath), //编译到app目录
-        filename: '[name].js?[hash]' //编译后的文件名
+        filename: '[name].js' //编译后的文件名
     },
     module: {
         loaders: [

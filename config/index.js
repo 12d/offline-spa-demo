@@ -11,8 +11,11 @@ module.exports = {
         host: 'localhost', //ip地址
         user: 'root', //帐号
         pass: '1111', //密码
-        port: 3000 //端口
+        port: 3000 //端口,
+
     },
-    publicPath: '/dist/app/', //程序在网站根路径地址
-    target: 'https://cnodejs.org/' //连接的服务器地址
+    domain: 'http://lv.me:3000',
+    // domain: '',
+    staticPath: '/',
+    publicPath: '/dist', //程序在网站根路径地址
 }

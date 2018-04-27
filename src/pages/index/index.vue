@@ -16,7 +16,7 @@
 			<router-link slot="right" v-if="user.id" to="/home">{{user.name}}</router-link>
 		</v-header>
 		<div class="login-msg" v-if="!user.id">
-			<router-link to="/login">你还未登录，请先登录</router-link>
+			<button type="button" @click="goLogin">你还未登录，请先登录</button>
 		</div>
 		<div class="msg" v-if="user.id">
 			<img width="50" :src="logo" alt=""> <br>
@@ -25,9 +25,20 @@
 	</div>
 </template>
 <script>
-    import { mapState } from 'vuex'
+    import { mapState } from 'vuex';
+		import aladdin from '../../common/aladdin';
+
 	import logo from './logo.png'
     export default {
+		methods: {
+			goLogin(){
+				console.log('gologin');
+				aladdin.navigator.forward({
+					url: 'http://lv.me:3000/login',
+					title: '登录'
+				});
+			}
+		},
 		data() {
 			return {
 				logo

@@ -8,7 +8,7 @@ const express = require('express');
 
 function runReleaseServer(){
   let app = express();
-  app.use(express.static('./'));
+  app.use(express.static('.' + config.publicPath));
   let server = app.listen(3000, ()=>{
     var host = server.address().address;
     var port = server.address().port;
